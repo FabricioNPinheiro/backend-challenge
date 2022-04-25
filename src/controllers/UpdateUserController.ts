@@ -1,19 +1,20 @@
 import { Request, Response } from "express";
-import { CreateUserService } from "../services/CreateUserService";
+import { UpdateCategoryService } from "../services/UpdateUserService";
 
-export class CreateUserController {
+export class UpdateCategoryController {
   async handle(request: Request, response: Response) {
-    const { name, email, password, phone, type, address }: any = request.body;
+    const { id } = request.params;
+    const { name, email, password, phone, type }: any = request.body;
 
-    const service = new CreateUserService();
+    const service = new UpdateCategoryService();
 
     const result = await service.execute({
+      id,
       name,
       email,
       password,
       phone,
       type,
-      address,
     });
 
     if (result instanceof Error) {
