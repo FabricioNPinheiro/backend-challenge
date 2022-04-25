@@ -12,17 +12,9 @@ export class CreateUserService {
     type,
     address,
   }): Promise<User | Error> {
-    /* const userExistsInDatabase = prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
-
-    console.log(userExistsInDatabase);
-
-    if (userExistsInDatabase) {
+    if (await prisma.user.findUnique({ where: { email: email } })) {
       return new Error("User already exists");
-    } */
+    }
 
     const newUser = await prisma.user.create({
       data: {
