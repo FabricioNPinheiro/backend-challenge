@@ -1,0 +1,73 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TypeUser {
+  admin    @map("Administrador")
+  client  @map("Cliente")
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  street       String
+  city         String
+  number       String
+  uf           String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User?    @relation(fields: [userId], references: [id])
+  userId       String?
+}
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  phone         String
+  address       Address[]
+  type          TypeUser
+  order         Order?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+enum Status {
+  pending       @map("Pendente de Confirmação")
+  confirmed     @map("Confirmado")
+  traffic       @map("Em Trânsito")
+  completed     @map("Entrega Concluída")
+  canceled      @map("Cancelado")
+}
+
+model Order {
+  id           String     @id @default(uuid()) 
+  products     Product[]
+  user         User @relation(fields: [userId], references: [id])
+  userId       String 
+  status       Status
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Product {
+  id           String     @id @default(uuid())
+  name         String
+  price        Float
+  code         String
+  characteristics String
+  image        String
+  order        Order  @relation(fields: [orderId], references: [id])
+  orderId      String                      
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
