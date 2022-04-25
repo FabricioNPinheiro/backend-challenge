@@ -7,6 +7,7 @@ export class GetAllUsersService {
 
     const usersMappingResult = (await users).map((user) => {
       return {
+        id: user.id,
         name: user.name,
         email: user.email,
         password: user.password,
