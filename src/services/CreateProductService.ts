@@ -4,9 +4,25 @@ import { Product } from "../entities/Product";
 const prisma = new PrismaClient();
 
 export class CreateProductService {
-  async execute(data): Promise<Product | Error> {
+  async execute({
+    name,
+    price,
+    code,
+    characteristics,
+    image,
+  }): Promise<Product | Error> {
+    if (await prisma.product.findUnique({ where: { code: code } })) {
+      return new Error("Product already exists");
+    }
+
     const product = await prisma.product.create({
-      data: data,
+      data: {
+        name: name,
+        price: price,
+        code: code,
+        characteristics: characteristics,
+        image: image,
+      },
     });
 
     return product;
