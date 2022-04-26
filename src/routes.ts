@@ -4,13 +4,17 @@ const routes = Router();
 
 // USERS //
 // Controller
-import { CreateUserController } from "./controllers/user/CreateUserController";
-import { GetAllUsersController } from "./controllers/user/GetAllUsersController";
-import { DeleteUserController } from "./controllers/user/DeleteUserController";
-import { UpdateCategoryController } from "./controllers/user/UpdateUserController";
+import { CreateUserController } from "./controllers/CreateUserController";
+import { GetAllUsersController } from "./controllers/GetAllUsersController";
+import { DeleteUserController } from "./controllers/DeleteUserController";
+import { UpdateCategoryController } from "./controllers/UpdateUserController";
 
 // Validations
-import createUserValidator from "../src/controllers/user/validators/createUser.validator";
+import createUserValidator from "./controllers/validators/createUser.validator";
+
+// PRODUCTS //
+// Controller
+import { CreateProductController } from "./controllers/CreateProductController";
 
 routes.post(
   "/users",
@@ -20,5 +24,7 @@ routes.post(
 routes.get("/users", new GetAllUsersController().handle);
 routes.delete("/users/:id", new DeleteUserController().handle);
 routes.put("/users/:id", new UpdateCategoryController().handle);
+
+routes.post("/products", new CreateProductController().handle);
 
 export { routes };
